@@ -37,8 +37,6 @@ function computerPlay() {
 }
 
 function game() {
-  let playerScore = 0;
-  let computerScore = 0;
   for (let i = 0; i < 5; i++) {
     playerPlay = prompt("Choice:");
     result = playRound(playerPlay, computerPlay());
@@ -66,4 +64,30 @@ function game() {
   }
 }
 
-game();
+const div = document.querySelector("div");
+const btns = document.querySelectorAll("button");
+let playerScore = 0;
+let computerScore = 0;
+
+btns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    let result = document.createElement("p");
+    let scoreLine = document.createElement("p");
+    result.textContent = playRound(btn.textContent, computerPlay());
+
+    if (result.textContent[4] === "w") {
+      playerScore += 1;
+    } else if (result.textContent[4] === "l") {
+      computerScore += 1;
+    }
+
+    scoreLine.textContent = `You: ${playerScore}. Computer: ${computerScore}`;
+    if (computerScore === 5) {
+      scoreLine.textContent += ". Computer wins.";
+    } else if (playerScore === 5) {
+      scoreLine.textContent += ". You win.";
+    }
+    div.appendChild(result);
+    div.appendChild(scoreLine);
+  });
+});
